@@ -3,12 +3,15 @@
 import { streamText } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { createStreamableValue } from "ai/rsc";
+import { bedrock } from '@ai-sdk/amazon-bedrock';
+
+// const model = openai("gpt-4o");
+// const model = 
 
 export const streamTextAction = async () => {
   const result = await streamText({
-    model: openai("gpt-4o"),
-    temperature: 0.5,
-    prompt: "Tell me a joke.",
+    model: bedrock('anthropic.claude-3-sonnet-20240229-v1:0'),
+    prompt: "Who are you?"
   });
   return createStreamableValue(result.textStream).value;
 };

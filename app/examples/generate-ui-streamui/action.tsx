@@ -2,6 +2,7 @@
 
 import { createAI, getMutableAIState, streamUI } from "ai/rsc";
 import { openai } from "@ai-sdk/openai";
+import { bedrock } from '@ai-sdk/amazon-bedrock';
 import { ReactNode } from "react";
 import { z } from "zod";
 import { nanoid } from "nanoid";
@@ -28,7 +29,8 @@ export async function continueConversation(
   const history = getMutableAIState();
 
   const result = await streamUI({
-    model: openai("gpt-4o"),
+    // model: openai("gpt-4o"),
+    model: bedrock('anthropic.claude-3-sonnet-20240229-v1:0'),
     messages: [...history.get(), { role: "user", content: input }],
     text: ({ content, done }) => {
       if (done) {
@@ -49,7 +51,8 @@ export async function continueConversation(
         generate: async function* ({ location }) {
           yield <div>loading...</div>;
           const joke = await generateObject({
-            model: openai("gpt-4o"),
+            // model: openai("gpt-4o"),
+            model: bedrock('anthropic.claude-3-sonnet-20240229-v1:0'),
             schema: jokeSchema,
             prompt:
               "Generate a joke that incorporates the following location:" +
